@@ -1,15 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-sniff_and_fingerprint.py - Herramienta integrada de captura de tráfico y fingerprinting
-Autor: [Tu Nombre]
-Fecha: $(date +%Y-%m-%d)
-
-Uso:
-    python3 sniff_and_fingerprint.py --iface eth0 --target 10.0.0.5 --duration 60
-"""
-
 import argparse
 import json
 import logging
