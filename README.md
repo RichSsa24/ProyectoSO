@@ -31,4 +31,3 @@ Este repositorio,  contiene los scripts en **Python** y **Bash** necesarios para
 3. **Informes generados**: Subir al directorio `reports/` con nombre descriptivo.
 4. **Commits**: Hacer commits claros indicando la carpeta y el propósito del archivo (por ejemplo, `add: nuevo script de escaneo en bash`).
 
-Con esta organización, el grupo tendrá un acceso rápido y ordenado a todo el material. ¡Listo para empezar a colaborar!
