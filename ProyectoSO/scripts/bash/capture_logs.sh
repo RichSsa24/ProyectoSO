@@ -1,9 +1,15 @@
 #!/bin/bash
 set -euo pipefail
 
-# Script: capture_logs.sh
-# Descripción: Captura tráfico de red usando tcpdump
-# Uso: ./capture_logs.sh <interfaz> <duración_en_segundos> [--help]
+
+
+# Directorio y archivo de log
+LOG_DIR="logs"
+mkdir -p "$LOG_DIR"
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+LOG_FILE="${LOG_DIR}/capture_${TIMESTAMP}.txt"
+# Redirigir todo stdout y stderr al archivo de log
+exec >"$LOG_FILE" 2>&1
 
 show_help() {
     echo "Uso: ${0##*/} <interfaz> <duración_en_segundos>"
@@ -26,7 +32,6 @@ fi
 
 INTERFACE="$1"
 DURATION="$2"
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 CAPTURE_DIR="captures"
 PCAP_FILE="${CAPTURE_DIR}/${INTERFACE}_${TIMESTAMP}.pcap"
 
@@ -44,6 +49,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 # Crear directorio de capturas
+echo "[*] Creando directorio de capturas: $CAPTURE_DIR"
 mkdir -p "$CAPTURE_DIR"
 
 echo "[*] Iniciando captura en $INTERFACE por $DURATION segundos..."
@@ -51,23 +57,27 @@ echo "[*] Iniciando captura en $INTERFACE por $DURATION segundos..."
 # Capturar tráfico con tcpdump
 tcpdump -i "$INTERFACE" -w "$PCAP_FILE" \
     -n -s 0 -v \
-    'not arp and not stp and not port 5353' &>/dev/null &
+    'not arp and not stp and not port 5353' &
 
 # Obtener PID del proceso
-TCPDUMP_PID=$!
+tcpdump_pid=$!
 
-# Configurar temporizador
+# Esperar duración especificada
 sleep "$DURATION"
 
 # Detener captura
-kill -INT "$TCPDUMP_PID"
-wait "$TCPDUMP_PID"
+echo "[*] Deteniendo tcpdump (PID $tcpdump_pid)..."
+kill -INT "$tcpdump_pid"
+wait "$tcpdump_pid"
 
-# Comprimir captura
+echo "[*] Captura guardada en: $PCAP_FILE"
+
 echo "[*] Comprimiendo captura..."
 gzip -f "$PCAP_FILE"
 COMPRESSED_FILE="${PCAP_FILE}.gz"
 
-echo "[+] Captura completada. Archivo guardado en: $COMPRESSED_FILE"
+echo "[+] Captura completada. Archivo comprimido en: $COMPRESSED_FILE"
+
+echo "[+] Log de ejecución: $LOG_FILE"
 
 exit 0
