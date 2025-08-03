@@ -17,9 +17,6 @@ Este repositorio,  contiene los scripts en **Python** y **Bash** necesarios para
 │   ├── bash/           # Scripts en Bash
 │   └── python/         # Scripts en Python
 │
-├── docs/               # Documentación del laboratorio y guías
-│
-├── reports/            # Informes generados por los scripts
 │
 └── README.md           # Este archivo de descripción
 ```
@@ -27,7 +24,5 @@ Este repositorio,  contiene los scripts en **Python** y **Bash** necesarios para
 ### Cómo subir archivos
 
 1. **Scripts nuevos**: Colocar el archivo en `scripts/bash/` o `scripts/python/` según corresponda.
-2. **Documentos o guías**: Guardar en la carpeta `docs/`.
-3. **Informes generados**: Subir al directorio `reports/` con nombre descriptivo.
-4. **Commits**: Hacer commits claros indicando la carpeta y el propósito del archivo (por ejemplo, `add: nuevo script de escaneo en bash`).
+2. **Commits**: Hacer commits claros indicando la carpeta y el propósito del archivo (por ejemplo, `add: nuevo script de escaneo en bash`).
 
